@@ -1,0 +1,9 @@
+
+### $Id: TODO,v 1.2 2008/02/05 20:21:24 goswami Exp $
+
++++ the user-provided function logTarDensFunc takes only one argument
+draws, which is the cluster indicator vector. The future plan is to
+pass it two arguments, clusterLabels and clusters, i.e., the partition
+representation of draw. This will eliminate the R-level use of the
+partitionRep function in the implementation of the
+logTarDensFunc. This will hopefully make things faster.

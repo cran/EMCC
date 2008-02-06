@@ -1,0 +1,4 @@
+
+
+PKG_CXXFLAGS = #-Wall -pedantic #-DDEBUG_OBJECTS=1 #-DDEBUG_CLUSTER=1  
+
