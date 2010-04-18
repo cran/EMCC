@@ -1,0 +1,18 @@
+
+
+### $Id: ChangeLog,v 1.1 2010/04/18 17:04:08 goswami Exp $
+	
+	
+		CHANGES IN EMC VERSION 1.1
+
+
+
+BUG FIXES
+
+    o	The license field in the description file has been changed to
+	reflect this package's dependence on mclust
+
+
+
+    o	The argument of a call to log( ) was explicitly cast to double
+

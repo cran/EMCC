@@ -1,6 +1,6 @@
 
 /*
- *  $Id: objects.cc,v 1.4 2008/02/05 21:44:53 goswami Exp $
+ *  $Id: objects.cc,v 1.5 2010/04/18 17:04:09 goswami Exp $
  *  
  *  File: objects.C
  *  Copyright (C) 2006-present Gopi Goswami 
@@ -369,7 +369,7 @@ Sampler::MH_SPLIT_MERGE_propDens (int obj, Cluster &curr, Cluster &prop)
                  * possibility
                  */
                 if (currFreq == 1) {
-                        return -log(currNClusters - 1);
+                        return -log(static_cast<double>(currNClusters - 1));
                 }
                 /* 
                  * propFreq > 1 and currNClusters > 1:  both merge and split

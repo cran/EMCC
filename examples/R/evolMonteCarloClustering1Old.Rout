@@ -1,0 +1,288 @@
+
+R version 2.5.1 (2007-06-27)
+Copyright (C) 2007 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### $Id$
+> 
+> if (!('package:EMCC' %in% search( )))
++     library(EMCC, lib.loc='~/Rlib')
+use of mclust requires a license agreement
+see http://www.stat.washington.edu/mclust/license.txt
+##
+## Evolutionary Monte Carlo Package (EMC)
+##
+## Functionality: random walk Metropolis, general Metropolis-Hastings
+## parallel tempering, target oriented EMC (TOEMC), temperature ladder
+## contruction and placement
+##
+## Use: "help(package = EMC)" at the R prompt for more info
+##
+## Copyright (C) 2006-2008 Gopi Goswami
+##
+## Created and maintained by: Gopi Goswami <goswami@stat.harvard.edu>
+##
+##
+## Evolutionary Monte Carlo Clustering Package (EMCC)
+##
+## Functionality: evolutionary Monte Carlo clustering,
+## temperature placement
+## Copyright (C) 2006-2008 Gopi Goswami
+##
+## Support provided by Gopi Goswami [goswami@stat.harvard.edu]
+> 
+> source('../../tests/funcGenerators.R')
+> 
+> pdf(file.path('plots', 'evolMonteCarloClustering1.pdf'))
+> 
+> KMeansObj  <- KMeansFuncGenerator1( )
+
+The K-Means clustering summary:
+K-means clustering with 2 clusters of sizes 16, 24
+
+Cluster means:
+         [,1]        [,2]
+1 -0.03416216 0.002450534
+2  1.10053242 0.971842328
+
+Clustering vector:
+ [1] 2 2 2 2 1 1 1 2 1 1 2 1 2 2 1 2 1 2 1 1 2 2 2 2 2 2 2 1 1 2 2 2 2 1 1 1 2 2
+[39] 1 2
+
+Within cluster sum of squares by cluster:
+[1] 7.127567 6.977725
+
+Available components:
+[1] "cluster"  "centers"  "withinss" "size"    
+
+The MCLUST clustering summary:
+
+ best model: EII with 2 components
+> samplerObj <-
++     with(KMeansObj,
++      {
++          temperLadder <- c(40, 30, 20, 10, 7, 5, 3, 1.5, 1)
++ ##          temperLadder    <- c(5.0000000, 1.5593974, 1.1028349, 0.9220684,
++ ##                               0.7900778, 0.6496648, 0.5135825, 0.5000000)
++          nLevels         <- length(temperLadder)
++          sampDim         <- nrow(yy)
++          startingVals    <- sample(c(0, 1),
++                                    size    = nLevels * sampDim,
++                                    replace = TRUE)
++          startingVals    <- matrix(startingVals, nrow = nLevels, ncol = sampDim)
++          moveProbsList   <- list(MH             = 0.4,
++                                  RC             = 0.3,
++                                  'SCSC_TWO_NEW' = 0.3)
++          mm              <- floor(nLevels / 2)
++          moveNTimesList  <- list(MH             = 1,
++                                  RC             = mm,
++                                  'SCSC_TWO_NEW' = mm,
++                                  RE             = nLevels)
++          evolMonteCarloClustering(nIters            = 100,
++                                   temperLadder      = temperLadder,
++                                   startingVals      = startingVals,
++                                   logTarDensFunc    = logTarDensFunc,
++                                   moveProbsList     = moveProbsList,
++                                   moveNTimesList    = moveNTimesList,
++                                   levelsSaveSampFor = seq_len(nLevels),
++                                   saveFitness       = TRUE,
++                                   verboseLevel      = 1)
++      })
+
+BEGIN: EMCC
+..........
+[Time to finish (est):       12 secs, this iter:         10]....................
+[Time to finish (est):       10 secs, this iter:         30]....................
+[Time to finish (est):        8 secs, this iter:         50]....................
+[Time to finish (est):        5 secs, this iter:         70]....................
+[Time to finish (est):        2 secs, this iter:         90]..........
+[Total time:         15 secs (usr),     0 secs (sys), this iter:        100]
+E N D: EMCC
+> print(samplerObj)
+
+The temperature ladder:
+[1] 40.0 30.0 20.0 10.0  7.0  5.0  3.0  1.5  1.0
+
+The overall acceptance rate summary:
+                 ratio accepted proposed moveNTimes
+MH           0.0000000        0    13320          1
+RC           0.9435484      117      124          4
+SCSC_TWO_NEW 1.0000000      128      128          4
+RE           0.9622222      866      900          9
+
+> print(names(samplerObj))
+ [1] "draws"                "acceptRatios"         "acceptRatiosList"    
+ [4] "nIters"               "levelsSaveSampFor"    "temperLadder"        
+ [7] "startingVals"         "moveProbsList"        "moveNTimesList"      
+[10] "detailedAcceptRatios" "time"                
+> with(c(samplerObj, KMeansObj),
++  {
++      print(acceptRatios)
++      print(acceptRatiosList)
++      print(detailedAcceptRatios)
++      print(dim(draws))
++      fitnessCol <- ncol(draws[ , , 1])     
++      sub        <- paste('uniform prior on # of clusters: DU[',
++                          priorMinClusters, ', ',
++                          priorMaxClusters, ']', sep = '')
++      for (ii in rev(seq_along(levelsSaveSampFor))) {
++          main <- paste('EMCC (MAP) clustering (temper = ',
++                        round(temperLadder[levelsSaveSampFor[ii]], 3), ')',
++                        sep = '')
++          MAPRow <- which.min(draws[ , fitnessCol, ii])
++          clusterPlot(id       = draws[MAPRow, -fitnessCol, ii],
++                      data     = yy,
++                      main     = main,
++                      sub      = sub,
++                      meansMat = meansMat)
++      }
++  })
+                 ratio accepted proposed moveNTimes
+MH           0.0000000        0    13320          1
+RC           0.9435484      117      124          4
+SCSC_TWO_NEW 1.0000000      128      128          4
+RE           0.9622222      866      900          9
+$MH
+       block1 block2 block3 block4 block5 block6 block7 block8 block9 block10
+level1      0      0      0      0      0      0      0      0      0       0
+level2      0      0      0      0      0      0      0      0      0       0
+level3      0      0      0      0      0      0      0      0      0       0
+level4      0      0      0      0      0      0      0      0      0       0
+level5      0      0      0      0      0      0      0      0      0       0
+level6      0      0      0      0      0      0      0      0      0       0
+level7      0      0      0      0      0      0      0      0      0       0
+level8      0      0      0      0      0      0      0      0      0       0
+level9      0      0      0      0      0      0      0      0      0       0
+       block11 block12 block13 block14 block15 block16 block17 block18 block19
+level1       0       0       0       0       0       0       0       0       0
+level2       0       0       0       0       0       0       0       0       0
+level3       0       0       0       0       0       0       0       0       0
+level4       0       0       0       0       0       0       0       0       0
+level5       0       0       0       0       0       0       0       0       0
+level6       0       0       0       0       0       0       0       0       0
+level7       0       0       0       0       0       0       0       0       0
+level8       0       0       0       0       0       0       0       0       0
+level9       0       0       0       0       0       0       0       0       0
+       block20 block21 block22 block23 block24 block25 block26 block27 block28
+level1       0       0       0       0       0       0       0       0       0
+level2       0       0       0       0       0       0       0       0       0
+level3       0       0       0       0       0       0       0       0       0
+level4       0       0       0       0       0       0       0       0       0
+level5       0       0       0       0       0       0       0       0       0
+level6       0       0       0       0       0       0       0       0       0
+level7       0       0       0       0       0       0       0       0       0
+level8       0       0       0       0       0       0       0       0       0
+level9       0       0       0       0       0       0       0       0       0
+       block29 block30 block31 block32 block33 block34 block35 block36 block37
+level1       0       0       0       0       0       0       0       0       0
+level2       0       0       0       0       0       0       0       0       0
+level3       0       0       0       0       0       0       0       0       0
+level4       0       0       0       0       0       0       0       0       0
+level5       0       0       0       0       0       0       0       0       0
+level6       0       0       0       0       0       0       0       0       0
+level7       0       0       0       0       0       0       0       0       0
+level8       0       0       0       0       0       0       0       0       0
+level9       0       0       0       0       0       0       0       0       0
+       block38 block39 block40
+level1       0       0       0
+level2       0       0       0
+level3       0       0       0
+level4       0       0       0
+level5       0       0       0
+level6       0       0       0
+level7       0       0       0
+level8       0       0       0
+level9       0       0       0
+
+$RC
+       level1 level2 level3 level4 level5 level6    level7    level8    level9
+level1     NA      1      1      1      1   1.00 1.0000000 1.0000000 0.8000000
+level2    1.0     NA      1      1      1   1.00 1.0000000 1.0000000 1.0000000
+level3    1.0      1     NA      1      1   1.00 1.0000000 1.0000000 1.0000000
+level4    1.0      1      1     NA      1   1.00 1.0000000 1.0000000 1.0000000
+level5    1.0      1      1      1     NA   1.00 1.0000000 1.0000000 1.0000000
+level6    1.0      1      1      1      1     NA 1.0000000 0.7500000 1.0000000
+level7    1.0      1      1      1      1   1.00        NA 1.0000000 0.4285714
+level8    1.0      1      1      1      1   0.75 1.0000000        NA 0.8333333
+level9    0.8      1      1      1      1   1.00 0.4285714 0.8333333        NA
+
+$SCSC_TWO_NEW
+       level1 level2 level3 level4 level5 level6 level7 level8 level9
+level1     NA     NA      1      1      1      1      1      1      1
+level2     NA     NA      1      1      1      1      1      1      1
+level3      1      1     NA      1      1      1      1      1      1
+level4      1      1      1     NA      1      1      1      1      1
+level5      1      1      1      1     NA      1      1      1      1
+level6      1      1      1      1      1     NA      1      1      1
+level7      1      1      1      1      1      1     NA      1      1
+level8      1      1      1      1      1      1      1     NA      1
+level9      1      1      1      1      1      1      1      1     NA
+
+$RE
+          level1    level2 level3 level4   level5   level6   level7    level8
+level1        NA 0.9924242     NA     NA       NA       NA       NA        NA
+level2 0.9924242        NA      1     NA       NA       NA       NA        NA
+level3        NA 1.0000000     NA      1       NA       NA       NA        NA
+level4        NA        NA      1     NA 1.000000       NA       NA        NA
+level5        NA        NA     NA      1       NA 0.983871       NA        NA
+level6        NA        NA     NA     NA 0.983871       NA 0.970000        NA
+level7        NA        NA     NA     NA       NA 0.970000       NA 0.8315789
+level8        NA        NA     NA     NA       NA       NA 0.831579        NA
+level9        NA        NA     NA     NA       NA       NA       NA 0.9166667
+          level9
+level1        NA
+level2        NA
+level3        NA
+level4        NA
+level5        NA
+level6        NA
+level7        NA
+level8 0.9166667
+level9        NA
+
+$MH
+       argminBlock min argmaxBlock max
+level1           1   0          40   0
+level2           1   0          40   0
+level3           1   0          40   0
+level4           1   0          40   0
+level5           1   0          40   0
+level6           1   0          40   0
+level7           1   0          40   0
+level8           1   0          40   0
+level9           1   0          40   0
+
+$BetweenAllLevels
+             argminLevels   min argmaxLevels max
+RC              9 <-->  7 0.429    6 <-->  9   1
+SCSC_TWO_NEW    3 <-->  1 1.000    8 <-->  9   1
+RE              8 <-->  7 0.832    4 <-->  5   1
+
+$TargetWithOtherLevels
+             argminLevels   min argmaxLevels   max
+RC              9 <-->  7 0.429    9 <-->  6 1.000
+SCSC_TWO_NEW    9 <-->  1 1.000    9 <-->  8 1.000
+RE              9 <-->  8 0.917    9 <-->  8 0.917
+
+[1] 100  41   9
+> 
+> dev.off( )
+null device 
+          1 
+> 
+> 
