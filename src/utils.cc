@@ -40,7 +40,7 @@
 #include "utils.h"
 
 int
-utils_iarray_print (int *arr, int nn, char *sep)
+utils_iarray_print (int *arr, int nn, const char *sep)
 {
         int ii;
 
@@ -58,7 +58,7 @@ utils_iarray_print (int *arr, int nn, char *sep)
 
 
 int
-utils_darray_print (double *arr, int nn, char *sep)
+utils_darray_print (double *arr, int nn, const char *sep)
 {
         int ii;
 
@@ -76,7 +76,7 @@ utils_darray_print (double *arr, int nn, char *sep)
 
 
 int
-utils_sarray_print (char **arr, int nn, char *sep)
+utils_sarray_print (char **arr, int nn, const char *sep)
 {
         int ii;
 
@@ -94,7 +94,7 @@ utils_sarray_print (char **arr, int nn, char *sep)
 
 
 int
-utils_SEXP_iarray_print (SEXP arr, char *sep)
+utils_SEXP_iarray_print (SEXP arr, const char *sep)
 {
         int ii, nn = length(arr);
 
@@ -112,7 +112,7 @@ utils_SEXP_iarray_print (SEXP arr, char *sep)
 
 
 int
-utils_SEXP_darray_print (SEXP arr, char *sep)
+utils_SEXP_darray_print (SEXP arr, const char *sep)
 {
         int ii, nn = length(arr);
         

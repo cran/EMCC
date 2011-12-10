@@ -11,6 +11,15 @@
   The evolutionary Monte Carlo clustering (EMCC) algorithm needs a
   temperature ladder. This function finds the maximum temperature for
   constructing the ladder.
+
+  Below \code{sampDim} refers to the dimension of the sample space,
+  \code{temperLadderLen} refers to the length of the temperature ladder,
+  and \code{levelsSaveSampForLen} refers to the length of
+  \code{levelsSaveSampFor}. Note, this function calls
+  \code{\link{evolMonteCarloClustering}}, so some of the arguments below
+  have the same name and meaning as the corresponding ones for
+  \code{\link{evolMonteCarloClustering}}. \emph{See details below for
+  explanation on the arguments}.
 }
  
 \usage{
@@ -34,15 +43,6 @@ findMaxTemper(nIters,
 }
 
 \arguments{
-  Below \code{sampDim} refers to the dimension of the sample space,
-  \code{temperLadderLen} refers to the length of the temperature ladder,
-  and \code{levelsSaveSampForLen} refers to the length of
-  \code{levelsSaveSampFor}. Note, this function calls
-  \code{\link{evolMonteCarloClustering}}, so some of the arguments below
-  have the same name and meaning as the corresponding ones for
-  \code{\link{evolMonteCarloClustering}}. \emph{See details below for
-  explanation on the following arguments}.
-
   \item{nIters}{\code{integer} \eqn{>} 0.}
 
   \item{statsFuncList}{\code{list} of functions of one argument

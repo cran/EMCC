@@ -243,15 +243,17 @@ private:
         int CE_move (void);
         // The utility functions.
         SEXP lang5 (SEXP s, SEXP t, SEXP u, SEXP v, SEXP w);
-        SEXP getListElement (SEXP list, char *str);
+        SEXP getListElement (SEXP list, const char *str);
         int gatherTimeDetails (void);
         ProposalCounter *** PCMatNew (int dim1, int dim2);
         enum SelectionCode getSelectionCode (char const *codeName);
         double logTarDensFuncUserRfunc (SEXP argXX);
         inline double getNeighbourProb (int jjGiven, int ii);
-        int exchangeGivenProb (int *sl, ProposalCounter *pc, char *moveName, 
+        int exchangeGivenProb (int *sl, 
+                               ProposalCounter *pc, 
+                               const char *moveName, 
                                double prob);
-        int exchange (int *sl, ProposalCounter *pc, char *moveName);
+        int exchange (int *sl, ProposalCounter *pc, const char *moveName);
         int cyclicShiftDraws (int ladderLength, int selLength);
         int initArgsList1 (ArgsList1 *al);
         int init (void);

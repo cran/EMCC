@@ -12,6 +12,11 @@
   density function and a temperature ladder this function produces samples
   from the target using the evolutionary Monte Carlo clustering (EMCC) 
   algorithm.
+
+  Below \code{sampDim} refers to the dimension of the sample space,
+  \code{temperLadderLen} refers to the length of the temperature ladder,
+  and \code{levelsSaveSampForLen} refers to the length of the
+  \code{levelsSaveSampFor}.
 }
 
 \usage{
@@ -29,11 +34,6 @@ evolMonteCarloClustering(nIters,
 }
 
 \arguments{
-  Below \code{sampDim} refers to the dimension of the sample space,
-  \code{temperLadderLen} refers to the length of the temperature ladder,
-  and \code{levelsSaveSampForLen} refers to the length of the
-  \code{levelsSaveSampFor}.
-
   \item{nIters}{\code{integer} \eqn{>} 0.}
 
   \item{temperLadder}{\code{double} vector with all \emph{positive}
@@ -80,11 +80,11 @@ evolMonteCarloClustering(nIters,
       \tab Metropolis-Hastings or mutation
       \cr
 
-      \acronym{SCSC\_ONE\_NEW}
+      \acronym{SCSC_ONE_NEW}
       \tab sub-cluster swap crossover: one new
       \cr
 
-      \acronym{SCSC\_TWO\_NEW}
+      \acronym{SCSC_TWO_NEW}
       \tab sub-cluster swap crossover: two new
       \cr
 
@@ -108,16 +108,16 @@ evolMonteCarloClustering(nIters,
         valid:}
 
       \preformatted{
-moveProbsList = list(MH               = 0.5,
-                     'SCSC\_TWO\_NEW' = 0.25,
-                     SCRC             = 0.25)
+moveProbsList = list(MH           = 0.5,
+                     SCSC_TWO_NEW = 0.25,
+                     SCRC         = 0.25)
       }
 
       \preformatted{
-moveNTimesList = list(MH               = 1, 
-                      'SCSC\_TWO\_NEW' = floor(temperLadderLen / 2),
-                      SCRC             = floor(temperLadderLen / 2),
-                      RE               = temperLadderLen)           
+moveNTimesList = list(MH           = 1, 
+                      SCSC_TWO_NEW = floor(temperLadderLen / 2),
+                      SCRC         = floor(temperLadderLen / 2),
+                      RE           = temperLadderLen)           
       }
     }
 
@@ -185,11 +185,11 @@ moveNTimesList = list(MH               = 1,
 
   \tabular{rl}{
     \code{moveProbsList}
-    \tab \code{list(MH = 0.5, RC = 0.25, 'SCSC\_TWO\_NEW' = 0.25)}.
+    \tab \code{list(MH = 0.5, RC = 0.25, 'SCSC_TWO_NEW' = 0.25)}.
     \cr
 
     \code{moveNTimesList}
-    \tab \code{list(MH = 1, RC = mm, 'SCSC\_TWO\_NEW' = mm, RE = nn)},  
+    \tab \code{list(MH = 1, RC = mm, 'SCSC_TWO_NEW' = mm, RE = nn)},  
     \cr
 
     \tab
@@ -255,7 +255,6 @@ print(names(samplerObj))
 with(c(samplerObj, KMeansObj),
  {
      print(acceptRatios)
-     print(acceptRatiosList)
      print(detailedAcceptRatios)
      print(dim(draws))
      fitnessCol <- ncol(draws[ , , 1])     

@@ -1,7 +1,13 @@
 
+                CHANGES IN EMC VERSION 1.2
 
-### $Id: ChangeLog,v 1.1 2010/04/18 17:04:08 goswami Exp $
+
 	
+BUG FIXES
+        
+    o   The package was failing several R CMD check tests
+
+
 	
 		CHANGES IN EMC VERSION 1.1
 

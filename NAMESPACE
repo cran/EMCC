@@ -13,6 +13,6 @@ export(evolMonteCarloClustering,
        clusterPlot,
        KMeansFuncGenerator1)
 
-S3Method(print, EMCC)
-S3Method(print, EMCCMaxTemper)
-S3Method(print, EMCCPlaceTempers)
+S3method(print, EMCC)
+S3method(print, EMCCMaxTemper)
+S3method(print, EMCCPlaceTempers)

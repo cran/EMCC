@@ -1726,7 +1726,7 @@ Sampler::lang5 (SEXP s, SEXP t, SEXP u, SEXP v, SEXP w)
  * not found. It has been modified a little bit.
  */
 SEXP
-Sampler::getListElement (SEXP list, char *str)
+Sampler::getListElement (SEXP list, const char *str)
 {
         SEXP elmt = R_NilValue, names = getAttrib(list, R_NamesSymbol);
         int ii, found = 0, nn = length(list);
@@ -1824,7 +1824,9 @@ Sampler::getNeighbourProb (int jjGiven, int ii)
 }
 
 int
-Sampler::exchangeGivenProb (int *sl, ProposalCounter *pc, char *moveName, 
+Sampler::exchangeGivenProb (int *sl, 
+                            ProposalCounter *pc, 
+                            const char *moveName, 
                             double prob)
 {        
         if (runif(0, 1) > prob) return 0;
@@ -1843,7 +1845,7 @@ Sampler::exchangeGivenProb (int *sl, ProposalCounter *pc, char *moveName,
 }
 
 int 
-Sampler::exchange (int *sl, ProposalCounter *pc, char *moveName)
+Sampler::exchange (int *sl, ProposalCounter *pc, const char *moveName)
 {
         double *ld = logDensities_, *itl = invTemperLadder_, alpha;
         

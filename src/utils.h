@@ -52,31 +52,32 @@ extern "C" {
 #define MAX_WORD_LENGTH 1024
 #define MAX_LINE_LENGTH 4096
 
-#define DEBUG(_xx) \
-do { \
-      Rprintf("===== BEGIN: DEBUG block =====\n" \
-               "file:  %s,  line:  %d\n", \
-               __FILE__, __LINE__); \
-       _xx \
-       Rprintf("===== E N D: DEBUG block =====\n"); \
-} while (0)
+#define DEBUG(_xx)                                                      \
+        do {                                                            \
+                Rprintf("===== BEGIN: DEBUG block =====\n"              \
+                        "file:  %s,  line:  %d\n",                      \
+                        __FILE__, __LINE__);                            \
+                _xx                                                     \
+                        Rprintf("===== E N D: DEBUG block =====\n");    \
+        } while (0)
 
 #define PHONY(_xx) ((void) 0)
 
-#define SWAP(_type, _obj1, _obj2) \
-do { \
-_type _objTmp; \
-\
-_objTmp = _obj2; \
-_obj2 = _obj1; \
-_obj1 = _objTmp; \
-} while (0)
+#define SWAP(_type, _obj1, _obj2)               \
+        do {                                    \
+                _type _objTmp;                  \
+                                                \
+                _objTmp = _obj2;                \
+                _obj2 = _obj1;                  \
+                _obj1 = _objTmp;                \
+        } while (0)
 
-#define RAISE(_ss) \
-do { \
-        Rprintf("error: %s [%s:%d]", _ss, __FILE__, __LINE__);   \
-        abort( ); \
-} while (0)
+#define RAISE(_ss)                                                      \
+        do {                                                            \
+        char msg[4096];                                                 \
+        sprintf(msg, "error: %s [%s:%d]", _ss, __FILE__, __LINE__);     \
+        error(msg); \
+        } while (0)
 
 // #define RAISE(_ss) error((_ss))
 #define SQR(_xx) ((_xx) * (_xx))
@@ -87,65 +88,65 @@ do { \
 #define PRINT_STUB_STRING(_var) Rprintf(#_var " = %s\n", _var);
 #define PRINT_STUB_POINTER(_var) Rprintf(#_var " = %p\n", _var);
 
-#define PRINT_STUB_IARRAY(arr_, nn_, ss_) \
-do { \
-      Rprintf(#arr_ " [length = %d]:\n", nn_); \
-      utils_iarray_print(arr_, nn_, ss_); \
-} while (0)
+#define PRINT_STUB_IARRAY(arr_, nn_, ss_)                       \
+        do {                                                    \
+                Rprintf(#arr_ " [length = %d]:\n", nn_);        \
+                utils_iarray_print(arr_, nn_, ss_);             \
+        } while (0)
 
-#define PRINT_STUB_DARRAY(arr_, nn_, ss_) \
-do { \
-      Rprintf(#arr_ " [length = %d]:\n", nn_); \
-      utils_darray_print(arr_, nn_, ss_); \
-} while (0)
+#define PRINT_STUB_DARRAY(arr_, nn_, ss_)                       \
+        do {                                                    \
+                Rprintf(#arr_ " [length = %d]:\n", nn_);        \
+                utils_darray_print(arr_, nn_, ss_);             \
+        } while (0)
 
-#define PRINT_STUB_SEXP_IARRAY(arr_, ss_) \
-do { \
-      Rprintf(#arr_ " [length = %d]:\n", length(arr_)); \
-      utils_SEXP_iarray_print(arr_, ss_); \
-} while (0)
+#define PRINT_STUB_SEXP_IARRAY(arr_, ss_)                               \
+        do {                                                            \
+                Rprintf(#arr_ " [length = %d]:\n", length(arr_));       \
+                utils_SEXP_iarray_print(arr_, ss_);                     \
+        } while (0)
 
-#define PRINT_STUB_SEXP_DARRAY(arr_, ss_) \
-do { \
-      Rprintf(#arr_ " [length = %d]:\n", length(arr_)); \
-      utils_SEXP_darray_print(arr_, ss_); \
-} while (0)
+#define PRINT_STUB_SEXP_DARRAY(arr_, ss_)                               \
+        do {                                                            \
+                Rprintf(#arr_ " [length = %d]:\n", length(arr_));       \
+                utils_SEXP_darray_print(arr_, ss_);                     \
+        } while (0)
 
-        extern int
-        utils_iarray_print (int *arr, int nn, char *sep);
+extern int
+utils_iarray_print (int *arr, int nn, const char *sep);
 
-        extern int
-        utils_darray_print (double *arr, int nn, char *sep);
+extern int
+utils_darray_print (double *arr, int nn, const char *sep);
 
-        extern int
-        utils_sarray_print (char **arr, int nn, char *sep);
+extern int
+utils_sarray_print (char **arr, int nn, const char *sep);
 
-        extern int
-        utils_SEXP_iarray_print (SEXP arr, char *sep);
+extern int
+utils_SEXP_iarray_print (SEXP arr, const char *sep);
 
-        extern int
-        utils_SEXP_darray_print (SEXP arr, char *sep);
+extern int
+utils_SEXP_darray_print (SEXP arr, const char *sep);
 
-        extern bool
-        utils_is_int_in_iarray (int elem, int nn, int *iarr);
+extern bool
+utils_is_int_in_iarray (int elem, int nn, int *iarr);
 
-        extern int
-        utils_unique_iarray_remove_item (int *arr, int nn, int item);
+extern int
+utils_unique_iarray_remove_item (int *arr, int nn, int item);
         
-        extern bool
-        utils_are_disjoint_iarray_iarray (int nn1, int *iarr1, int nn2, int *iarr2);
+extern bool
+utils_are_disjoint_iarray_iarray (int nn1, int *iarr1, int nn2, int *iarr2);
 
-        extern int
-        utils_intersect_iarray_iarray (int nn1, int *iarr1, int nn2, int *iarr2,
-                                       int *nIntersection, int *intersection);
+extern int
+utils_intersect_iarray_iarray (int nn1, int *iarr1, int nn2, int *iarr2,
+                               int *nIntersection, int *intersection);
 
-        extern int
-        utils_sample_bool_mat_cell (int nrows, int ncols, bool **mat, int ntruths,
-                                    int *row, int *col);
+extern int
+utils_sample_bool_mat_cell (int nrows, int ncols, bool **mat, int ntruths,
+                            int *row, int *col);
         
-        extern int
-        utils_sample_indices_SRSWOR (int nPop, int nSubPop, bool *isAlreadySampled,
-                                     int *indices);
+extern int
+utils_sample_indices_SRSWOR (int nPop, int nSubPop, bool *isAlreadySampled,
+                             int *indices);
         
 #ifdef __cplusplus
 }
