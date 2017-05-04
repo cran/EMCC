@@ -2,6 +2,12 @@
 .onLoad <-
     function (libname, pkgname)
 {
+    library.dynam(pkgname, pkgname, lib.loc=libname)
+}
+
+.onAttach <-
+    function (libname, pkgname)
+{
     this.year <- substr(as.character(Sys.Date( )), 1, 4)
     packageStartupMessage('##\n',
                           '## Evolutionary Monte Carlo Clustering Package (EMCC)\n',
@@ -16,8 +22,6 @@
                           '##    Created by: Gopi Goswami <goswami@stat.harvard.edu>\n',
                           '## Maintained by: Gopi Goswami <grgoswami@gmail.com>\n',
                           '##\n')
-
-    library.dynam(pkgname, pkgname, lib.loc=libname)
 }
 
 

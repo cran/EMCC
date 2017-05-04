@@ -261,7 +261,6 @@ findMaxTemper(nIters,
 \seealso{\code{\link{placeTempers}}, \code{\link{evolMonteCarloClustering}}}
 
 \examples{
-\dontrun{
 ## The following example is a simple stochastic optimization problem,
 ## and thus it does not require any "heating up", and hence the
 ## maximum temperature turns out to be the coldest one, i.e, 0.5.
@@ -309,7 +308,7 @@ maxTemperObj   <-
                                 size    = nLevels * sampDim,
                                 replace = TRUE)
          startingVals <- matrix(startingVals, nrow = nLevels, ncol = sampDim)
-         findMaxTemper(nIters            = 5000,
+         findMaxTemper(nIters            = 50,
                        statsFuncList     = statsFuncList,
                        temperLadder      = temperLadder,
                        startingVals      = startingVals,
@@ -339,6 +338,5 @@ with(c(maxTemperObj, KMeansObj),
                      knownClusterMeans = knownClusterMeans)
      }
  })
-}
 }
 \keyword{methods}

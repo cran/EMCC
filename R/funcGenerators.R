@@ -142,8 +142,8 @@ KMeansFuncGenerator1 <-
         sub <- paste('# of clusters = ', nMixComps, ', assumed known', sep = '')
         kmObj <- kmeans(yy,
                         centers  = nMixComps,
-                        iter.max = 10000,
-                        nstart   = 10000)
+                        iter.max = 1000,
+                        nstart   = 1000)
         cat('\nThe K-Means clustering summary:\n')
         print(kmObj)
         clusterPlot(clusterInd        = kmObj$cluster,
@@ -316,9 +316,4 @@ KMeansFuncGenerator2 <-
          priorMaxClusters  = priorMaxClusters,
          logTarDensFunc    = logTarDensFunc)
 }
-
-
-
-
-
 

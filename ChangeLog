@@ -1,14 +1,38 @@
 
+                CHANGES IN EMC VERSION 1.3
+
+
+
+BUG FIXES
+
+    o   The package was failing several R CMD check tests due to changes
+    	in C++ related includes
+
+
+
+NOTES
+
+   o	Now the examples run faster than before and hence they are out of
+   	\donotrun{}, the test code for placeTempers is in \donottest{}
+	
+	
+	
+   o	The max.iters and nstart arguments for the kmeans function in the
+   	examples were reduced to 1000 and the number of iterations of the EMCC
+	functions in the examples was reduced to <= 100
+
+
+
                 CHANGES IN EMC VERSION 1.2
 
 
-	
+
 BUG FIXES
-        
+
     o   The package was failing several R CMD check tests
 
 
-	
+
 		CHANGES IN EMC VERSION 1.1
 
 

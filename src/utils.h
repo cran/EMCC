@@ -40,15 +40,14 @@
 #define UTILS_H
 
 #include <iostream>
+#include <R.h>
+#include <Rinternals.h>
+#include <Rmath.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
         
-#include <R.h>
-#include <Rinternals.h>
-#include <Rmath.h>
-
 #define MAX_WORD_LENGTH 1024
 #define MAX_LINE_LENGTH 4096
 

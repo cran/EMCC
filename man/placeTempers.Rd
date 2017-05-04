@@ -232,7 +232,6 @@ placeTempers(nIters,
 \seealso{\code{\link{findMaxTemper}}, \code{\link{evolMonteCarloClustering}}}
 
 \examples{
-\dontrun{
 ## The following example is a simple stochastic optimization problem,
 ## the set up is same as that of findMaxTemper. Here no "heating up"
 ## is necessary, and hence the maximum temprature is the coldest one,
@@ -240,6 +239,7 @@ placeTempers(nIters,
 ##
 ## However, we do the temperature placement to show how placeTempers
 ## works, assuming the maximum temperature is 5.
+\donttest{
 KMeansObj       <- KMeansFuncGenerator1(-97531)
 placeTempersObj <-
     with(KMeansObj,
@@ -250,7 +250,7 @@ placeTempersObj <-
                                 size    = nLevels * sampDim,
                                 replace = TRUE)
          startingVals <- matrix(startingVals, nrow = nLevels, ncol = sampDim)
-         placeTempers(nIters            = 5000,
+         placeTempers(nIters            = 1000,
                       acceptRatioLimits = c(0.5, 0.6),
                       ladderLenMax      = 50,
                       startingVals      = startingVals,
@@ -282,6 +282,6 @@ with(c(placeTempersObj, KMeansObj),
                      knownClusterMeans = knownClusterMeans)
      }
  })
-}
+ }
 }
 \keyword{methods}

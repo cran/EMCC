@@ -211,7 +211,6 @@ moveNTimesList = list(MH           = 1,
 }
 
 \examples{
-\dontrun{
 ## The following example is a simple stochastic optimization problem,
 ## the set up is same as that of findMaxTemper and placeTempers. Here
 ## no "heating up" is necessary, and hence the maximum temprature is
@@ -240,7 +239,7 @@ samplerObj <-
                                  RC             = mm,
                                  'SCSC_TWO_NEW' = mm,
                                  RE             = nLevels)
-         evolMonteCarloClustering(nIters            = 5000,
+         evolMonteCarloClustering(nIters            = 100,
                                   temperLadder      = temperLadder,
                                   startingVals      = startingVals,
                                   logTarDensFunc    = logTarDensFunc,
@@ -273,7 +272,6 @@ with(c(samplerObj, KMeansObj),
                      knownClusterMeans = knownClusterMeans)
      }
  })
-}
 }
 \keyword{methods}
 

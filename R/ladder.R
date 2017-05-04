@@ -108,7 +108,7 @@ findMaxTemper <-
 print.EMCCMaxTemper <-
     function (x, ...)
 {
-    EMC:::print.EMCMaxTemper(x, ...)
+    EMC::print.EMCMaxTemper(x, ...)
 }
 
 ### %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,7 +174,7 @@ placeTempers <-
 print.EMCCPlaceTempers <-
     function (x, ...)
 {
-    EMC:::print.EMCPlaceTempers(x, ...)
+    EMC::print.EMCPlaceTempers(x, ...)
 }
 
 

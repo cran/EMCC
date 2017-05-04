@@ -2538,3 +2538,14 @@ EMCCMainC (SEXP argsList)
         return samplerObj;
 }
 
+R_CallMethodDef callMethods[]  = {
+  {"EMCCMainC", (DL_FUNC) &EMCCMainC, 1},
+  {NULL, NULL, 0}
+};
+
+void
+R_init_EMCC (DllInfo *info)
+{
+  R_registerRoutines(info, NULL, callMethods, NULL, NULL);
+  R_useDynamicSymbols(info, (Rboolean)FALSE);
+}

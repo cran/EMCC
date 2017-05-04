@@ -3,6 +3,14 @@
 
 useDynLib(EMCC, EMCCMainC)
 
+import(mclust)
+import(MASS)
+import(EMC)
+
+importFrom('graphics', 'par', 'plot', 'points')
+importFrom('stats', 'kmeans')
+
+
 export(evolMonteCarloClustering,
        findMaxTemper,
        placeTempers,
